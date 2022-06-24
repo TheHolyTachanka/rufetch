@@ -6,7 +6,7 @@
                -+oooooo+:                     KERNEL: KERNEL_VERSION
              `/:-:++oooo+:                    Hostname: HOSTNAME
             `/++++/+++++++:                   Uptime: UPTIME
-           `/++++++++++++++:                  Memory: USED_MEMEORY / TOTAL_MEMORY
+           `/++++++++++++++:                  Memory: USED_MEMORY / TOTAL_MEMORY
           `/+++ooooooooooooo/`                Swap: USED_SWAP / TOTAL_SWAP
          ./ooosssso++osssssso+`               
         .oossssso-````/ossssss+`
