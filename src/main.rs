@@ -1,107 +1,70 @@
 use sysinfo::{System, SystemExt};
 
+const RESET: &str = r#"\x1B[0m"#;
+const BLACK: &str = r#"\x1B[30m"#; /* Black */
+const RED: &str = r#"\x1B[31m"#; /* Red */
+const GREEN: &str = r#"\x1B[32m"#; /* Green */
+const YELLOW: &str = r#"\x1B[33m"#; /* Yellow */
+const BLUE: &str = r#"\x1B[34m"#; /* Blue */
+const MAGENTA: &str = r#"\x1B[35m"#; /* Magenta */
+const CYAN: &str = r#"\x1B[36m"#; /* Cyan */
+const WHITE: &str = r#"\x1B[37m"#; /* White */
 
-fn main(){
-    if cfg!(windows) {
-        windows_fetch();
-    } else if cfg!(unix) {
-        linux_fetch();
-    }else if cfg!(target_os = "macos") {
-        mac_fetch();
+fn main() {
+    get_ascci();
+}
+
+fn format_ascci(ascci: String) -> String {
+    let sys = System::new_all();
+    let ascci_replaced = ascci
+        .replace("OS_NAME", sys.name().unwrap().as_str())
+        .replace("KERNEL_VERSION", sys.kernel_version().unwrap().as_str())
+        .replace("UPTIME", sys.uptime().to_string().as_str())
+        .replace("USED_MEMORY", sys.used_memory().to_string().as_str())
+        .replace("TOTAL_MEMORY", sys.total_memory().to_string().as_str())
+        .replace("USED_SWAP", sys.used_swap().to_string().as_str())
+        .replace("TOTAL_SWAP", sys.total_swap().to_string().as_str())
+        .replace("RESET", RESET)
+        .replace("BLACK", BLACK)
+        .replace("RED", RED)
+        .replace("GREEN", GREEN)
+        .replace("YELLOW", YELLOW)
+        .replace("BLUE", BLUE)
+        .replace("MAGENTA", MAGENTA)
+        .replace("CYAN", CYAN)
+        .replace("WHITE", WHITE);
+
+    return ascci_replaced;
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+#[tokio::main]
+async fn get_ascci() -> Result<(), reqwest::Error> {
+    let mut sys = System::new_all();
+    sys.refresh_all();
+    let url = "https://raw.githubusercontent.com/TheHolyTachanka/rufetch/main/ascii/".to_owned()
+        + &sys.name().unwrap().to_owned();
+
+    let res = reqwest::get(&url).await?;
+
+    if res.status().is_success() {
+        let ascci = res.text().await?;
+
+        let better_ascci = format_ascci(ascci);
+
+        println!("{}", better_ascci.to_owned());
+    } else {
+        let res = reqwest::get(
+            "https://raw.githubusercontent.com/TheHolyTachanka/rufetch/main/ascii/default",
+        )
+        .await?;
+
+        let ascci = res.text().await?;
+
+        let better_ascci = format_ascci(ascci);
+
+        println!("{}", better_ascci);
     }
-    
 
-
-}
-
-fn linux_fetch() {
-
-    let mut sys = System::new_all();
-
-    sys.refresh_all();
-
-
-    println!("                     .88888888:.");
-    println!("                88888888.88888.");
-    println!("              .8888888888888888.");
-    println!("             888888888888888888");
-    println!("            88' _`88'_  `88888");
-    println!("             88 88 88 88  88888");
-    println!("             88_88_::_88_:88888");
-    println!("             88:::,::,:::::8888");
-    println!("             88`:::::::::'`8888               OS: {:?}", sys.name());
-    println!("            .88  `::::'    8:88.              Hostname: {:?}", sys.host_name());
-    println!("           8888            `8:888.            Kernel: {:?}", sys.kernel_version());
-    println!("          .8888'             `888888.         System booted at {} seconds", sys.boot_time());
-    println!("        .8888:..  .::.  ...:'8888888:.        System running since {} seconds", sys.uptime());
-    println!("       .8888.'     :'     `'::`88:88888       number of processors: {}", sys.processors().len());
-    println!("      .8888        '         `.888:8888.      Memory: {} / {}",sys.used_memory(), sys.total_memory()  );
-    println!("     888:8         .           888:88888      Swap: {} / {}",sys.used_swap(), sys.total_swap() ); 
-    println!("   .888:88        .:           888:88888:");  
-    println!("   8888888.       ::           88:888888");
-    println!("   `.::.888.      ::          .88888888");
-    println!("  .::::::.888.    ::         :::`8888'.:.");
-    println!("  ::::::::::.888            .::::::::::::");
-    println!("  ::::::::::::.8    '      .:8::::::::::::.");
-    println!(" .::::::::::::::.        .:888:::::::::::::");
-    println!(" :::::::::::::::88:.__..:88888:::::::::::'");
-    println!("  `'.:::::::::::88888888888.88:::::::::'");
-    println!("       `':::_:' -- '' -'-' `':_::::'`");
-}
-
-fn windows_fetch() {
-
-    let mut sys = System::new_all();
-
-    sys.refresh_all();
-
-    println!("                   .oodMMMMMMMMMMMMM");
-    println!("       ..oodMMM  MMMMMMMMMMMMMMMMMMM");
-    println!(" oodMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM");
-    println!(" MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM          OS: {:?}", sys.name());
-    println!(" MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM          Hostname: {:?}", sys.host_name());
-    println!(" MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM          Kernel: {:?}", sys.kernel_version());
-    println!(" MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM          System booted at {} seconds", sys.boot_time());
-    println!(" MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM          System running since {} seconds", sys.uptime());
-    println!("                                              number of processors: {}", sys.processors().len());
-    println!(" MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM          Memory: {} / {}",sys.used_memory(), sys.total_memory());
-    println!(" MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM          Swap: {} / {}",sys.used_swap(), sys.total_swap() ); 
-    println!(" MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM");
-    println!(" MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM");
-    println!(" MMMMMMMMMMMMMM  MMMMMMMMMMMMMMMMMMM");
-    println!(" `^^^^^^MMMMMMM  MMMMMMMMMMMMMMMMMMM");
-    println!("       ````^^^^  ^^MMMMMMMMMMMMMMMMM");
-    println!("                     ````^^^^^^MMMM");
-}
-
-fn mac_fetch() {
-
-    let mut sys = System::new_all();
-
-    sys.refresh_all();
-    
-    println!("                            .8"); 
-    println!("                      .888");
-    println!("                    .8888'");
-    println!("                   .8888'");
-    println!("                   888'");
-    println!("                   8'");
-    println!("      .88888888888. .88888888888.");
-    println!("   .8888888888888888888888888888888.");
-    println!(" .8888888888888888888888888888888888.");
-    println!(".&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'");
-    println!("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'         OS: {:?}", sys.name());  
-    println!("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'          Hostname: {:?}", sys.host_name());
-    println!("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:           Kernel: {:?}", sys.kernel_version());
-    println!("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:           System booted at {} seconds", sys.boot_time());
-    println!("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:           System running since {} seconds", sys.uptime());
-    println!("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.          number of processors: {}", sys.processors().len());
-    println!("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.         Memory: {} / {}",sys.used_memory(), sys.total_memory());
-    println!("`%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.       Swap: {} / {}",sys.used_swap(), sys.total_swap() ); 
-    println!(" `00000000000000000000000000000000000'");
-    println!(" `000000000000000000000000000000000'");
-    println!("   `0000000000000000000000000000000'");
-    println!("     `###########################'");
-    println!("       `#######################'");
-    println!("         `#########''########'");
+    Ok(())
 }
