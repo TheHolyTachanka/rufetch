@@ -4,11 +4,11 @@
                 `+oooo: 
                `+oooooo:                      OS: OS_NAME
                -+oooooo+:                     KERNEL: KERNEL_VERSION
-             `/:-:++oooo+: 
-            `/++++/+++++++: 
-           `/++++++++++++++: 
-          `/+++ooooooooooooo/`
-         ./ooosssso++osssssso+`
+             `/:-:++oooo+:                    Hostname: HOSTNAME
+            `/++++/+++++++:                   Uptime: UPTIME
+           `/++++++++++++++:                  Number of processors: PROCESSES
+          `/+++ooooooooooooo/`                Memory: USED_MEMEORY / TOTAL_MEMORY
+         ./ooosssso++osssssso+`               Swap: USED_SWAP / TOTAL_SWAP
         .oossssso-````/ossssss+`
        -osssssso.      :ssssssso. 
       :osssssss/        osssso+++. 
