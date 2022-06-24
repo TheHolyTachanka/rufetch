@@ -1,19 +1,19 @@
-                   BLUE-`  
-                  BLUE.o+`  
-                 BLUE`ooo/  
-                BLUE`+oooo: 
-               BLUE`+oooooo:                      RESETOS: OS_NAME
-              BLUE -+oooooo+:                     RESETKERNEL: KERNEL_VERSION
-             BLUE`/:-:++oooo+:                    RESETHostname: HOSTNAME
-            BLUE`/++++/+++++++:                   RESETUptime: UPTIME
-           BLUE`/++++++++++++++:                  RESETMemory: USED_MEMORY / TOTAL_MEMORY
-          BLUE`/+++ooooooooooooo/`                RESETSwap: USED_SWAP / TOTAL_SWAP
-         BLUE./ooosssso++osssssso+`               
-        BLUE.oossssso-````/ossssss+`
-       BLUE-osssssso.      :ssssssso. 
-      BLUE:osssssss/        osssso+++. 
-     BLUE/ossssssss/        +ssssooo/- 
-   BLUE`/ossssso+/:-        -:/+osssso+- 
-  BLUE`+sso+:-`                 `.-/+oso: 
- BLUE`++:.                           `-/+/ 
- BLUE.`                                 `/
+                   -`  
+                  .o+`  
+                 `ooo/  
+                `+oooo: 
+               `+oooooo:                      OS: OS_NAME
+               -+oooooo+:                     Kernel: KERNEL_VERSION
+             `/:-:++oooo+:                    Hostname: HOSTNAME
+            `/++++/+++++++:                   Uptime: UPTIME
+           `/++++++++++++++:                  Memory: USED_MEMORY / TOTAL_MEMORY
+          `/+++ooooooooooooo/`                Swap: USED_SWAP / TOTAL_SWAP
+         ./ooosssso++osssssso+`               
+        .oossssso-````/ossssss+`
+       -osssssso.      :ssssssso. 
+      :osssssss/        osssso+++. 
+     /ossssssss/        +ssssooo/- 
+   `/ossssso+/:-        -:/+osssso+- 
+  `+sso+:-`                 `.-/+oso: 
+ `++:.                           `-/+/ 
+ .`                                 `/
